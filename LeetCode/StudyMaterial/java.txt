@@ -1,0 +1,67 @@
+what are the data type in java
+   primitve data types: These include byte, short,int ,long,double,char
+ and boolean .They store simple values and are not objects
+    non-primitve data types: These include strings, array, class and interface. They are derived from primitive
+   data types and provide more functionalities
+
+   what are the wrapper classes
+     wrapper classes provide an object representation of primitive data types, such as Integer,Doubles,and Booleans
+     These classes allow primitives to be used in collection and provide useful utility methods
+   Are there dynamic  arrays in java?
+       java arrays are fixed indynamically .q4 size. However ,ArrayList provides a dynamic  array implementations where elements can be added or removed
+       dynamically
+      what is the jvm
+
+       The java virtual machine is a part of the java runtime environment (JRE). It is responsible for executing java bytecode  by converting it into machine code
+       specific to the operating system
+
+       why is java platform -independent
+       java achieves platform independence through bytecode. The java compiler converts code into buyte code, which  the jvm interprets for the underlying os
+       making java write once, run-anywhere
+
+       what are the local and global variable
+       local variables are declared inside methods or blocks and ar accessible only within their scope
+       global variables are declared within a class but outside any method and have a wider scope
+
+       what is the data encapsulation?
+       encapsulation is an oop principle where data(variables) and code (methods) are bundled  into single unit(class).
+       it restricts direct access to data using access modifiers(private, protected)
+
+       what is the function overloading?
+
+       function overloading allows multiple methods to have the same name but different paramters list.
+       The compiler differentiates them based on the number of type of parameters
+
+       what is the function overriding
+       overriding allows a subclass to provide  a specific implementation of a  method defined in it s superclass
+       It enables dynamic method dispatch
+
+       why is the main method static in java?
+        The main method is static so that it can be called without creating an instance of the class ,allowing the program to start execution
+        without object instantiation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

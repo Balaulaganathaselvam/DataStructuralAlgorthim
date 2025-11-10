@@ -1,0 +1,53 @@
+Implementing JWT Authentication in a Spring Boot application
+involves several steps to securely handle user login, token generation, and
+token validation for accessing protected endpoints. Below is a guide to
+help you implement JWT Authentication in your Spring Boot project
+
+Implementing JWT Authentication in Spring Boot
+Step 1: Add Required Dependencies
+First, you need to add the required dependencies in your pom.xml
+for JWT, Spring Security, and other essential libraries.
+
+Step 2: Create JWT Utility Class
+The JWT utility class will handle the tasks of creating, parsing, and
+validating JWT tokens.
+Example:-
+
+@Component
+public class JwtUtil {
+private static final String SECRET_KEY = "your-very-secure-secret-key";
+private static final long EXPIRATION_TIME = 86400000L; // in milliseconds
+public String generateToken(String username) {
+return Jwts.builder()
+.setSubject(username)
+.setIssuedAt(new Date())
+.setExpiration(new Date(System.currentTimeMillis() +
+EXPIRATION_TIME))
+.signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+.compact();
+}
+public String extractUsername(String token) {
+return Jwts.parser()
+.setSigningKey(SECRET_KEY)
+.parseClaimsJws(token)
+.getBody()
+.getSubject();
+}
+public boolean validateToken(String token, String username) {
+return extractUsername(token).equals(username) &&
+!isTokenExpired(token);
+}
+private boolean isTokenExpired(String token) {
+Date expiration = Jwts.parser()
+.setSigningKey(SECRET_KEY)
+.parseClaimsJws(token)
+.getBody()
+.getExpiration();
+return expiration.before(new Date());
+}
+}
+
+Step 3: Implement Security Configuration
+Spring Security 6 has made configuring security much easier. You’ll
+configure the security filter chain and disable the session management
+since JWT is stateless.

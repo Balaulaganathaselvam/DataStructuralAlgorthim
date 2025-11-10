@@ -1,0 +1,86 @@
+what is the spring boot and why is it used?
+ Spring boot simplifies java application development  by providing  auto-configuration, embedded servers and production-ready features
+
+what is the main features and  advantage of using  spring boot for application development?
+  Auto-configuration : spring boot automatically  configures spring beans based on dependency in the class path , reducing boilerplate code.
+  Embedded-servers: comes with embedded servers like tomcat, jetty, or underflow eliminating the need to deploy war
+  spring boot actuator: provides built -in  production ready feature like health checks,metrics and monitoring
+  starter dependencies: simplifies dependency management with  curated,versioned dependency
+  spring boot cli: command-line interface  for quickly  running and testing applications
+  spring boot dev tools: provides tools to improve development experience with  auto-restart and live reload
+
+  what is the spring boot starters
+    spring boot starters are pre-configured maven dependencies  that simplify adding  specific feature to your spring boot applicaiton
+    when you include a starter , you get all its transitive dependencies automatically
+    example : spring boot starter-web fo web apps
+              spring boot starter security for  security features
+
+  Expalin the @ spring boot application annotation
+
+     The @Spring boot applications annotations combines three essential annotations
+
+  @Configuration : Marks the class as a source of bean definitions
+  @EnableAutoConfiguration :  Tells spring boot t auto configure the application based on dependencies
+  @ component scan : Tells spring to scan teh package and sub-package for components
+
+how to create a spring boot application?
+ There are several ways to create a spring boot application:
+  Using the @ spring boot application annotation  with spring application .run()
+  using spring boot cli with groovy scripts
+  using maven gradle configuring the necessary dependencies and plugins
+
+spring boot configuration
+
+how to configure spring boot using application.properties
+Answer yu can set properties like data base configurations,logging setting and server ports in application properties
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+
+what is the difference between application properties and application.yml
+ both are used for configuration but they differ in format
+ application.properties uses key-value pairs format ,ideal for flat configurations
+ application.yml uses yaml format with hierarchial structure, better for complex or nested configuration
+
+how to externalize configuration in spring boot?
+  configuration can be externalized through:
+    application.properties or applicaiton.yml files
+    environment variables(Spring_<proprertyName>
+    command -line arguments
+    profiles(application-dev.properties,application-prod.properties)
+    config server( for microservice)
+    config data api (from spring boot 2.4)
+
+what is @Values used for
+  The @Value annotation injects property values into spring beans
+
+  @Value("$ company.maxEmployees")
+  private int maxEmployees
+
+what are the spring profiles and how do they work?
+spring profies define different configuration for different environments(dev,prod,test)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

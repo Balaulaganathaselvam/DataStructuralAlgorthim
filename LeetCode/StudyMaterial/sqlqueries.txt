@@ -1,0 +1,165 @@
+1. Write a query to find duplicate rows in a table.
+To detect duplicates, identify columns that should be unique and group by them.
+Example:
+
+SELECT column1, column2, COUNT(*) AS count
+FROM your_table
+GROUP BY column1, column2
+HAVING COUNT(*) > 1;
+
+
+Explanation:
+• GROUP BY combines rows with the same values in the specified columns.
+• HAVING COUNT(*) > 1 filters those combinations that occur more than once, indicating
+duplicates.
+Tip: Add ROW_NUMBER() or RANK() with CTE to highlight or delete duplicates if needed.
+
+2. Explain the difference between INNER JOIN and OUTER
+JOIN with examples.
+
+INNER JOIN:
+Returns only matching records from both tables.
+SELECT e.name, d.department_name
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.department_id;
+• Output: Only employees who belong to a department.
+
+
+LEFT OUTER JOIN:
+Returns all records from the left table, and matching records from the right table. If no
+match, NULL is returned.
+SELECT e.name, d.department_name
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.department_id;
+• Output: All employees, with department info where available.
+
+
+RIGHT OUTER JOIN:
+Returns all records from the right table, and matching records from the left.
+FULL OUTER JOIN:
+Returns all records from both tables, matching where possible.
+Key Difference:
+• INNER JOIN = intersection (matched data only)
+• OUTER JOIN = union + NULLs (matched + unmatched data)
+
+
+3. Write a query to fetch the second-highest salary from an
+employee table.
+Option 1: Using DISTINCT, ORDER BY, and LIMIT (MySQL/PostgreSQL)
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+Option 2: Using subquery (Generic SQL)
+SELECT MAX(salary)
+FROM employees
+WHERE salary < (SELECT MAX(salary) FROM employees);
+Explanation:
+• The subquery fetches the highest salary.
+• The outer query finds the maximum salary less than the highest — giving the second-
+highest.
+
+
+4. How do you use GROUP BY and HAVING together? Provide
+an example.
+Use GROUP BY to group data and HAVING to filter aggregated results (unlike WHERE,
+which filters raw rows).
+SELECT department_id, COUNT(*) AS emp_count
+FROM employees
+GROUP BY department_id
+HAVING COUNT(*) > 5;
+Explanation:
+• Groups employees by department.
+• Filters groups where the count of employees is more than 5.
+
+
+5. Write a query to find employees earning more than their
+managers.
+Assume the table employees has:
+emp_id, name, salary, manager_id
+SELECT e.name AS employee_name, e.salary, m.name AS manager_name, m.salary AS
+manager_salary
+FROM employees e
+JOIN employees m ON e.manager_id = m.emp_id
+WHERE e.salary > m.salary;
+Explanation:
+• Self-join: matches employees (e) with their managers (m).
+• Filters those where employee's salary > manager's salary.
+6. What is a window function in SQL? Provide examples of
+ROW_NUMBER and RANK.
+Definition:
+A window function performs calculations across a set of table rows related to the current
+row — without collapsing rows like GROUP BY.
+Syntax:
+FUNCTION_NAME() OVER (PARTITION BY column ORDER BY column)
+Example: ROW_NUMBER()
+Assigns a unique sequential number to each row within a partition.
+SELECT name, department, salary,
+ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) AS row_num
+FROM employees;
+• Each employee within the same department gets a row number based on salary rank
+(highest first).
+Example: RANK()
+Assigns the same rank to rows with equal values, but skips the next rank(s).
+SELECT name, department, salary,
+RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS rank_num
+FROM employees;
+• If 2 employees have the same salary, both get rank 1, and the next gets rank 3.
+7. Write a query to fetch the top 3 performing products based
+on sales.
+Assume table sales_data has:
+product_id, product_name, total_sales
+SELECT product_id, product_name, total_sales
+FROM sales_data
+ORDER BY total_sales DESC
+LIMIT 3;
+Alternate using RANK() (if ties matter):
+SELECT product_id, product_name, total_sales
+FROM (
+SELECT *, RANK() OVER (ORDER BY total_sales DESC) AS rank_num
+FROM sales_data
+) ranked_sales
+WHERE rank_num <= 3;
+8. Explain the difference between UNION and UNION ALL.
+Feature
+Duplicates
+UNION
+Removes duplicates
+UNION ALL
+Keeps all rows, including duplicates
+Performance Slower (because of sorting) Faster (no de-duplication)
+Use case
+When you want distinct rows When duplicates are meaningful
+Example:
+SELECT city FROM customers
+UNION
+SELECT city FROM vendors;
+→ Returns a unique list of cities.
+SELECT city FROM customers
+UNION ALL
+SELECT city FROM vendors;
+→ Returns all cities, including duplicates.
+9. How do you use a CASE statement in SQL? Provide an
+example.
+CASE lets you write conditional logic in SQL (similar to IF/ELSE).
+SELECT name, salary,
+CASE
+WHEN salary >= 100000 THEN 'High'
+WHEN salary >= 50000 THEN 'Medium'
+ELSE 'Low'
+END AS salary_category
+FROM employees;
+Explanation:
+• Assigns a category based on salary value.
+• Works inside SELECT, WHERE, ORDER BY, etc.
+10. Write a query to calculate the cumulative sum of sales.
+Assume table sales has:
+order_date, product_id, sales_amount
+SELECT order_date, product_id, sales_amount,
+SUM(sales_amount) OVER (PARTITION BY product_id ORDER BY order_date) AS
+cumulative_sales
+FROM sales;
+Explanation:
+• SUM(...) OVER (...) calculates a running total per product based on order date.
+• PARTITION BY groups by product, and ORDER BY ensures the accumulation follows
+chronological order.
